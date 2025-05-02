@@ -177,18 +177,6 @@ export default function TutorialPage() {
             <span className="text-gray-600">10 min</span>
           </div>
         </div>
-
-        {/* Scroll Down Button - keeping from original */}
-        <a
-          href="#tutorials"
-          className="absolute bottom-10 right-10 p-3 bg-white text-black rounded-full shadow-lg hover:bg-gray-100 transition duration-300"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToTutorials();
-          }}
-        >
-          <span className="text-xl">↓</span>
-        </a>
       </section>
 
       {/* Tutorials Section */}
