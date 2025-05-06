@@ -200,7 +200,8 @@ export default function Navbar() {
               className={linkClass(path)}
               onClick={(e) => {
                 e.preventDefault(); // prevent React Router from handling the nav
-                setMobileMenuOpen(false); //force full reload
+                setMobileMenuOpen(false);
+                window.location.href = path; // force full reload
               }}
             >
               {name}
@@ -261,6 +262,7 @@ export default function Navbar() {
                         onClick={(e) => {
                           e.preventDefault();
                           setMobileMenuOpen(false);
+                          window.location.href = path;
                         }}
                         className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold ${
                           currentPath === path
