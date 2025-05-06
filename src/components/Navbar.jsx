@@ -198,11 +198,7 @@ export default function Navbar() {
               key={path}
               to={path}
               className={linkClass(path)}
-              onClick={(e) => {
-                e.preventDefault(); // prevent React Router from handling the nav
-                setMobileMenuOpen(false);
-                window.location.href = path; // force full reload
-              }}
+              onClick={() => setMobileMenuOpen(false)}
             >
               {name}
             </Link>
@@ -259,20 +255,8 @@ export default function Navbar() {
                       <Link
                         key={path}
                         to={path}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setMobileMenuOpen(false);
-                          window.location.href = path;
-                        }}
-                        className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold ${
-                          currentPath === path
-                            ? isDarkBackground
-                              ? "bg-red-900/20 text-red-300"
-                              : "bg-red-50 text-red-600"
-                            : isDarkBackground
-                            ? "text-gray-100 hover:bg-gray-800"
-                            : "text-gray-900 hover:bg-gray-50"
-                        }`}
+                        className={linkClass(path)}
+                        onClick={() => setMobileMenuOpen(false)}
                       >
                         {name}
                       </Link>
