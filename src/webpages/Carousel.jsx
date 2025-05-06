@@ -193,17 +193,10 @@ export default function CarouselSection() {
                     </p>
                   ))}
                 </div>
-
-                <a
-                  href={currentOuterItem.link}
-                  className="inline-block w-max px-6 py-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transform hover:-translate-y-1 transition-all duration-300"
-                >
-                  View All
-                </a>
               </div>
 
               {/* Image carousel - SECOND on mobile, FIRST on desktop */}
-              <div className="order-1 md:order-1 relative h-96 md:h-106 rounded-lg overflow-hidden shadow-lg">
+              <div className="order-1 md:order-1 relative aspect-square rounded-lg overflow-hidden shadow-lg">
                 {/* Image container with shadow overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
 
@@ -219,7 +212,7 @@ export default function CarouselSection() {
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
 
                     {image.caption && (
@@ -245,7 +238,7 @@ export default function CarouselSection() {
                           return updated;
                         })
                       }
-                      className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/80 text-gray-800 hover:bg-white shadow-md transition-all opacity-90 hover:opacity-100"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 text-white transition-all"
                       aria-label="Previous image"
                     >
                       <span className="text-sm font-bold">◀</span>
@@ -261,7 +254,7 @@ export default function CarouselSection() {
                           return updated;
                         })
                       }
-                      className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/80 text-gray-800 hover:bg-white shadow-md transition-all opacity-90 hover:opacity-100"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 text-white transition-all"
                       aria-label="Next image"
                     >
                       <span className="text-sm font-bold">▶</span>

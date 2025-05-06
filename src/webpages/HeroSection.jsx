@@ -1,14 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { forwardRef, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
-export default function HeroSection() {
-  const [currentSection, setCurrentSection] = useState("#home");
+const HeroSection = forwardRef((props, ref) => {
   const [isMuted, setIsMuted] = useState(true);
-  const [showNavbar, setShowNavbar] = useState(true);
-  const [isDarkBackground, setIsDarkBackground] = useState(true);
-
   const videoRef = useRef(null);
-  const scrollTimeoutRef = useRef(null);
 
   const toggleAudio = () => {
     if (videoRef.current) {
@@ -19,6 +14,7 @@ export default function HeroSection() {
 
   return (
     <section
+      ref={ref}
       className="relative isolate h-screen w-full overflow-hidden bg-white text-black"
       aria-label="Hero Section"
     >
@@ -33,7 +29,7 @@ export default function HeroSection() {
           preload="auto"
           className="w-full h-full object-cover"
         >
-          <source src="/Reimiho_Landing_Video.mov" type="video/mp4" />
+          <source src="/Reimiho_Landing_Video.mp4" type="video/mp4" />
           <source src="/fallback-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -49,4 +45,6 @@ export default function HeroSection() {
       </button>
     </section>
   );
-}
+});
+
+export default HeroSection;

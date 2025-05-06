@@ -10,8 +10,8 @@ const tutorials = [
       "A discreet and secure shelter, perfect for staying hidden from enemies and mobs. Built entirely below the surface with customizable interior for storage, crafting stations, and farms.",
     videoUrl: "https://youtu.be/MTX0X9nXMPs",
     thumbnail: "/Thumbnail2.jpg",
-    difficulty: "Medium",
-    duration: "15 min",
+    difficulty: "Difficult",
+    duration: " 149:59 min",
   },
   {
     id: "bamboo-house",
@@ -21,8 +21,8 @@ const tutorials = [
       "An eco-friendly build perfect for jungle biomes. Features an airy design that blends with surrounding greenery while providing essential shelter and storage.",
     videoUrl: "https://youtu.be/Hvdd9ktyn3I",
     thumbnail: "/Thumbnail3.jpg",
-    difficulty: "Easy",
-    duration: "10 min",
+    difficulty: "Medium",
+    duration: "29:45 min",
   },
   {
     id: "starter-house",
@@ -32,8 +32,8 @@ const tutorials = [
       "A practical build for early-game survival using common materials. Quick to construct with enough space for all essential crafting stations and storage.",
     videoUrl: "https://youtu.be/_qgcsUiMc94",
     thumbnail: "/Thumbnail4.jpg",
-    difficulty: "Beginner",
-    duration: "8 min",
+    difficulty: "Easy",
+    duration: "8:22 min",
   },
   {
     id: "japanese-pavilion",
@@ -44,7 +44,7 @@ const tutorials = [
     videoUrl: "https://youtu.be/b2CBkD8iiZ4",
     thumbnail: "/Thumbnail5.jpg",
     difficulty: "Medium",
-    duration: "12 min",
+    duration: "22:48 min",
   },
   {
     id: "winter-cabin",
@@ -55,7 +55,7 @@ const tutorials = [
     videoUrl: "https://youtu.be/nUSFIGzkqGU",
     thumbnail: "/Thumbnail6.jpg",
     difficulty: "Medium",
-    duration: "14 min",
+    duration: "23:15 min",
   },
   {
     id: "oak-mansion",
@@ -65,17 +65,17 @@ const tutorials = [
       "A grand, wooden structure with multiple floors and spacious rooms. Features tall walls, large windows, and a majestic sloping roof for advanced players.",
     videoUrl: "https://youtu.be/k2Yc12rHTAY",
     thumbnail: "/Thumbnail7.jpg",
-    difficulty: "Advanced",
-    duration: "25 min",
+    difficulty: "Hard",
+    duration: "45:47 min",
   },
 ];
 
 // Categories for filtering
 const categories = [
   { id: "all", name: "All Tutorials" },
-  { id: "beginner", name: "Beginner Friendly" },
+  { id: "easy", name: "Beginner Friendly" },
   { id: "survival", name: "Survival Builds" },
-  { id: "advanced", name: "Advanced Projects" },
+  { id: "hard", name: "Advanced Projects" },
 ];
 
 export default function TutorialPage() {
@@ -98,10 +98,10 @@ export default function TutorialPage() {
   const filteredTutorials = tutorials.filter((tutorial) => {
     const matchesCategory =
       activeCategory === "all" ||
-      (activeCategory === "beginner" && tutorial.difficulty === "Beginner") ||
+      (activeCategory === "easy" && tutorial.difficulty === "Easy") ||
       (activeCategory === "survival" &&
         tutorial.title.toLowerCase().includes("survival")) ||
-      (activeCategory === "advanced" && tutorial.difficulty === "Advanced");
+      (activeCategory === "hard" && tutorial.difficulty === "Hard");
 
     const matchesSearch =
       searchQuery === "" ||
@@ -169,12 +169,12 @@ export default function TutorialPage() {
           <div className="flex items-center space-x-2">
             <span className="text-gray-700 font-medium">Difficulty:</span>
             <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">
-              Beginner
+              Easy
             </span>
           </div>
           <div className="flex items-center space-x-2 mt-1">
             <span className="text-gray-700 font-medium">Duration:</span>
-            <span className="text-gray-600">10 min</span>
+            <span className="text-gray-600">20:22 min</span>
           </div>
         </div>
       </section>
@@ -269,7 +269,7 @@ export default function TutorialPage() {
                     <div className="absolute bottom-3 left-3 flex space-x-2">
                       <span
                         className={`text-xs font-medium px-2 py-1 rounded-full ${
-                          tutorial.difficulty === "Beginner"
+                          tutorial.difficulty === "Easy"
                             ? "bg-green-100 text-green-800"
                             : tutorial.difficulty === "Medium"
                             ? "bg-yellow-100 text-yellow-800"

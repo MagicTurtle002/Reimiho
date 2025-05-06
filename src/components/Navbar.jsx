@@ -22,6 +22,19 @@ export default function Navbar() {
   const navbarRef = useRef(null);
   const prevPathRef = useRef(currentPath);
 
+  const isInHeroSection = () => {
+    const heroElement = document.getElementById("hero-bg");
+    if (heroElement && navbarRef.current) {
+      const heroRect = heroElement.getBoundingClientRect();
+      const navbarRect = navbarRef.current.getBoundingClientRect();
+
+      return (
+        navbarRect.bottom > heroRect.top && navbarRect.top < heroRect.bottom
+      );
+    }
+    return false;
+  };
+
   // Handle navbar show/hide on scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -29,42 +42,46 @@ export default function Navbar() {
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
+      if (currentPath === "/" && isInHeroSection()) {
+        scrollTimeoutRef.current = setTimeout(() => {
+          setShowNavbar(false);
+        }, 3000);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Initial auto-hide only if on homepage and in hero section
+    if (currentPath === "/" && isInHeroSection()) {
       scrollTimeoutRef.current = setTimeout(() => {
         setShowNavbar(false);
       }, 3000);
-    };
-
-    // Show navbar on route change
-    setShowNavbar(true);
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
+    } else {
+      setShowNavbar(true); // Always visible on other pages
     }
-    scrollTimeoutRef.current = setTimeout(() => {
-      setShowNavbar(false);
-    }, 3000);
-
-    window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
-  }, [currentPath]); // Re-run when path changes
+  }, [currentPath]);
 
   // Check if navbar is over a dark background
   useEffect(() => {
     const checkBackgroundColor = () => {
       // First try to find elements with specific dark backgrounds
-      const darkElements = document.querySelectorAll('.bg-black, .bg-gray-900, .bg-slate-800, [data-dark-section]');
+      const darkElements = document.querySelectorAll(
+        ".bg-black, .bg-gray-900, .bg-slate-800, [data-dark-section]"
+      );
       let isDark = false;
-      
+
       if (navbarRef.current && darkElements.length > 0) {
         const navbarRect = navbarRef.current.getBoundingClientRect();
-        
+
         // Check if navbar overlaps with any dark element
         for (const element of darkElements) {
           const elementRect = element.getBoundingClientRect();
-          
+
           // Check for overlap
           if (
             navbarRect.bottom > elementRect.top &&
@@ -78,14 +95,14 @@ export default function Navbar() {
           }
         }
       }
-      
+
       // Fallback to hero element check if no dark elements were found overlapping
       if (!isDark) {
         const heroElement = document.getElementById("hero-bg");
         if (heroElement) {
           const heroRect = heroElement.getBoundingClientRect();
           const navbarRect = navbarRef.current.getBoundingClientRect();
-          
+
           // Check if navbar overlaps with hero
           if (
             navbarRect.bottom > heroRect.top &&
@@ -95,20 +112,20 @@ export default function Navbar() {
           }
         }
       }
-      
+
       // Update state
       setIsDarkBackground(isDark);
     };
-    
+
     // Check immediately when component mounts or route changes
     // Small delay to ensure DOM is updated after route change
     const timeoutId = setTimeout(checkBackgroundColor, 100);
-    
+
     // Check on scroll
     window.addEventListener("scroll", checkBackgroundColor);
     // Check on resize (in case layout shifts)
     window.addEventListener("resize", checkBackgroundColor);
-    
+
     return () => {
       clearTimeout(timeoutId);
       window.removeEventListener("scroll", checkBackgroundColor);
@@ -134,7 +151,9 @@ export default function Navbar() {
   // Log route changes for debugging
   useEffect(() => {
     if (prevPathRef.current !== currentPath) {
-      console.log(`Route changed from ${prevPathRef.current} to ${currentPath}`);
+      console.log(
+        `Route changed from ${prevPathRef.current} to ${currentPath}`
+      );
       prevPathRef.current = currentPath;
     }
   }, [currentPath]);
@@ -145,13 +164,13 @@ export default function Navbar() {
       className={`fixed inset-x-0 top-0 z-[9999] transition-all duration-300 ${
         showNavbar ? "opacity-100" : "opacity-0 pointer-events-none"
       } ${
-        isDarkBackground 
-          ? "bg-black/30 text-white" 
+        isDarkBackground
+          ? "bg-black/30 text-white"
           : "bg-white/80 text-gray-900"
       } backdrop-blur-md`}
     >
       <nav
-        className="flex items-center justify-between p-6 lg:px-8"
+        className="flex items-center justify-between p-4 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
@@ -179,7 +198,11 @@ export default function Navbar() {
               key={path}
               to={path}
               className={linkClass(path)}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault(); // prevent React Router from handling the nav
+                setMobileMenuOpen(false);
+                window.location.href = path; // force full reload
+              }}
             >
               {name}
             </Link>
@@ -215,7 +238,7 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <img
-                    className="h-8 w-auto"
+                    className="h-6 w-auto"
                     src="/LogoV1.png"
                     alt="Reimiho Logo"
                   />
@@ -236,15 +259,19 @@ export default function Navbar() {
                       <Link
                         key={path}
                         to={path}
-                        onClick={() => setMobileMenuOpen(false)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setMobileMenuOpen(false);
+                          window.location.href = path;
+                        }}
                         className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold ${
                           currentPath === path
                             ? isDarkBackground
                               ? "bg-red-900/20 text-red-300"
                               : "bg-red-50 text-red-600"
                             : isDarkBackground
-                              ? "text-gray-100 hover:bg-gray-800"
-                              : "text-gray-900 hover:bg-gray-50"
+                            ? "text-gray-100 hover:bg-gray-800"
+                            : "text-gray-900 hover:bg-gray-50"
                         }`}
                       >
                         {name}
